@@ -61,7 +61,6 @@ func (q *QueueInfo) ReceiveMessage(h ReceiveHandle) {
 	ro, _ := thisSQS.ReceiveMessage(&input)
 	l := len(ro.Messages)
 	if l > 0 {
-		fmt.Println("one start...", l, " messages.")
 		needDele := set.New()
 		wg := new(sync.WaitGroup)
 		for i := 0; i < l; i++ {
@@ -84,7 +83,6 @@ func (q *QueueInfo) ReceiveMessage(h ReceiveHandle) {
 		}
 
 		q.deleteMessage(&entries)
-		fmt.Println("one delete...")
 	}
 	q.ReceiveMessage(h)
 }
