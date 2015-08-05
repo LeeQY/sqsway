@@ -23,10 +23,11 @@ var (
 	body      = "1"
 	valueName = "value"
 	maxMsg    = int64(5)
+	region    = "cn-north-1"
 )
 
 func init() {
-	thisSQS = sqs.New(&aws.Config{Region: "cn-north-1"})
+	thisSQS = sqs.New(&aws.Config{Region: &region})
 }
 
 func New(q *string) *QueueInfo {
