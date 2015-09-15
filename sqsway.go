@@ -44,7 +44,7 @@ func (q *QueueInfo) SendMessage(msgString []byte) {
 	var msg sqs.SendMessageInput
 	msg.MessageAttributes = make(map[string]*sqs.MessageAttributeValue)
 	msg.MessageAttributes[valueName] = &mav
-	msg.QueueURL = q.Queue
+	msg.QueueUrl = q.Queue
 	msg.MessageBody = &body
 	_, err := thisSQS.SendMessage(&msg)
 	if err != nil {
@@ -54,7 +54,7 @@ func (q *QueueInfo) SendMessage(msgString []byte) {
 
 func (q *QueueInfo) ReceiveMessage(h ReceiveHandle) {
 	var input sqs.ReceiveMessageInput
-	input.QueueURL = q.Queue
+	input.QueueUrl = q.Queue
 	input.WaitTimeSeconds = &waitTime
 	input.MessageAttributeNames = []*string{&valueName}
 	input.MaxNumberOfMessages = &maxMsg
@@ -78,7 +78,7 @@ func (q *QueueInfo) ReceiveMessage(h ReceiveHandle) {
 			msg := ro.Messages[index]
 
 			var entry sqs.DeleteMessageBatchRequestEntry
-			entry.ID = msg.MessageID
+			entry.Id = msg.MessageId
 			entry.ReceiptHandle = msg.ReceiptHandle
 			entries = append(entries, &entry)
 		}
@@ -91,7 +91,7 @@ func (q *QueueInfo) ReceiveMessage(h ReceiveHandle) {
 //Delete the messages.
 func (q *QueueInfo) deleteMessage(entries *[]*sqs.DeleteMessageBatchRequestEntry) {
 	var delMessage sqs.DeleteMessageBatchInput
-	delMessage.QueueURL = q.Queue
+	delMessage.QueueUrl = q.Queue
 	delMessage.Entries = *entries
 
 	_, err := thisSQS.DeleteMessageBatch(&delMessage)
